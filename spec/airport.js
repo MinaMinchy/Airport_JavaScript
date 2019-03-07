@@ -1,29 +1,24 @@
 describe('Airport', function() {
-  var plane, airport;
-  
-  beforeEach(function() {
-    plane = {
-      land: function() {},
-      takeOff: function() {}
-    }
 
-    spyOn(plane, 'land')
-    spyOn(plane, 'takeOff')
-   
-    airport = new Airport()
+  beforeEach(function() {
+    airport = new Airport();
+    plane1 = new Plane();
+    plane2 = new Plane();
   })
 
-  describe('plane lands', function() {
-    it('instructs a plane to land', function() {
-      expect(airport.instructToLand(plane)).toEqual([plane])
-      expect(plane.land).toHaveBeenCalled()
-    });
-  });
+  it('plane lands', function() {
+    airport.land(plane1);
+    expect(airport.planes_landed).toContain(plane1);
+  })
 
-  describe('plane takes off', function() {
-    it('instructs a plane to take off', function() {
-      airport.instructToTakeOff(plane)
-      expect(plane.takeOff).toHaveBeenCalled()
-    });
-  });
+  it('plane take off', function() {
+  airport.takeOff(plane1)
+  expect(airport.planes_landed).not.toContain(plane1)
+  })
+
+  it("says plane can't take off if it's stormy", function() {
+    airport.weather = "stormy";
+    expect(airport.air_control(plane1)).toEqual("Plane can't take off")
+  })
+
 });
